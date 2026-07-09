@@ -2,6 +2,7 @@
 #include <string.h> 
 #include <ctype.h>
 #include "../include/validation.h"
+#include "../include/color.h"
 
 // * Xử lí nhập số nguyên
 int inputInt(const char *prompt, int minValue, int maxValue) {
@@ -20,12 +21,16 @@ int inputInt(const char *prompt, int minValue, int maxValue) {
 
         // Nó sẽ lấy line để mổ xẻ theo %d gán vào value, %c vào extra
         if (sscanf(line, " %d %c", &value, &extra) != 1) {
-            printf("=====> Vui lòng nhập một số nguyên hợp lệ. Thử lại.<======\n");
+            setColor(COLOR_YELLOW);
+            printf("\t[Warning: Vui lòng nhập một số nguyên hợp lệ]\n");
+            setColor(COLOR_DEFAULT);
             continue; 
         }
 
         if (value < minValue || value > maxValue) {
-            printf("=====> Value phải nằm trong khoảng từ %d đến %d. Vui lòng thử lại.<======\n", minValue, maxValue);
+            setColor(COLOR_YELLOW);
+            printf("\t[Warning: Giá trị phải nằm trong khoảng từ %d đến %d]\n", minValue, maxValue);
+            setColor(COLOR_DEFAULT);
             continue; 
         }
 
@@ -47,12 +52,16 @@ float inputFloat(const char *prompt, float minValue, float maxValue) {
 
         char extra; 
         if (sscanf(line, " %f %c", &value, &extra) != 1) {
-            printf("=====> Vui lòng nhập một số thực hợp lệ. Thử lại.<======\n");
+            setColor(COLOR_YELLOW);
+            printf("\t[Warning: Vui lòng nhập một số thực hợp lệ]\n");
+            setColor(COLOR_DEFAULT);
             continue; 
         }
 
         if (value < minValue || value > maxValue) {
-            printf("=====> Value phải nằm trong khoảng từ %.2f đến %.2f. Vui lòng thử lại.<======\n", minValue, maxValue);
+            setColor(COLOR_YELLOW);
+            printf("\t[Warning: Giá trị phải nằm trong khoảng từ %.2f đến %.2f]\n", minValue, maxValue);
+            setColor(COLOR_DEFAULT);
             continue; 
         }
         return value; 
@@ -80,7 +89,9 @@ void inputString(const char *prompt, char *buffer, int maxLength) {
         }
 
         if (maxLength == 0) {
-            printf("=====> Chiều dài tối đa phải lớn hơn 0. Vui lòng thử lại.<======\n");
+            setColor(COLOR_YELLOW);
+            printf("\t[Waring: Chiều dài chuỗi phải lớn hơn 0]\n");
+            setColor(COLOR_DEFAULT);
             continue; 
         }
 
@@ -92,7 +103,9 @@ void inputString(const char *prompt, char *buffer, int maxLength) {
 int confirmYesNo(const char *prompt) {
     char line[16]; 
     while(1) {
-        printf("%s (Y/N): ", prompt); 
+        setColor(COLOR_YELLOW);
+        printf(">> %s (Y/N): ", prompt); 
+        setColor(COLOR_DEFAULT);
 
         if (fgets(line, sizeof(line), stdin) == NULL) {
             continue; 
@@ -116,8 +129,9 @@ int confirmYesNo(const char *prompt) {
             if (c == 'N') return 0;
         }
         
-
-        printf("=====> Vui lòng nhập 'Y' hoặc 'N'. Thử lại.<======\n");
+        setColor(COLOR_YELLOW);
+        printf("[Notice: Vui lòng nhập 'Y' hoặc 'N']\n");
+        setColor(COLOR_DEFAULT);
     }
 }
 

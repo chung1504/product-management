@@ -4,12 +4,24 @@
 #include "../include/validation.h"
 #include "../include/table.h"
 #include "../include/logger.h"
+#include "../include/color.h"
 
-// * Nạp toàn bộ sản phẩm từ file .bin vào mảng 
+// * Mở program và nạp toàn bộ sản phẩm từ file .bin vào mảng 
 int loadProductsFromFile(Product listProducts[], int *count) {
     *count = 0;
     FILE *file = fopen(DATA_FILE, "rb"); 
     if (file == NULL) {
+        // Nếu file chưa có thì tạo 1 file rỗng rồi đóng lại
+        file = fopen(DATA_FILE, "wb");
+        if (file != NULL) {
+            fclose(file);
+            return 0;
+        }
+
+        // Nếu đến đây vẫn NULL thì mới thực sự là lỗi (Ví dụ: Sai đường dẫn thư mục)
+        setColor(COLOR_RED);
+        printf("[Error: Cannot open or create %s]\n", DATA_FILE);
+        setColor(COLOR_DEFAULT);
         return -1; 
     }
 
@@ -28,7 +40,9 @@ int saveProductsToFile(Product listProducts[], int count) {
     // "wb" = write binary, GHI ĐÈ toàn bộ nội dung file cũ 
     FILE *file = fopen(DATA_FILE, "wb"); 
     if (file == NULL) {
-        printf("Error: cannot open %s for writing\n", DATA_FILE);
+        setColor(COLOR_RED);
+        printf("[Error: cannot open %s for writing]\n", DATA_FILE);
+        setColor(COLOR_DEFAULT);
         return -1; 
     }
 

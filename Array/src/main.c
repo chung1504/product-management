@@ -10,6 +10,7 @@
 #include "../include/logger.h"
 #include "../include/export.h"
 #include "../include/product_manager.h"
+#include "../include/color.h"
 
 int main() {
     Product products[MAX_PRODUCTS]; 
@@ -20,7 +21,11 @@ int main() {
     int choice; 
     do {
         showMainMenu();
+
+        setColor(COLOR_CYAN);
         choice = inputInt(">> Enter your choice: ", 0, 12);
+        setColor(COLOR_DEFAULT);
+
         switch (choice) {
             case 1: menuWriteProducts(products, &count); break;
             case 2: menuAppendProducts(products, &count); break;
@@ -34,10 +39,16 @@ int main() {
             case 10: menuExportProducts(products, count); break;
             case 11: viewLogs(); break;
             case 12: clearScreen(); break;
-            case 0 :printf("Exiting the program....\n"); break;
-        default:
-            printf(">>> Invalid choice. Please try again <<<\n");
-            break;
+            case 0 :
+                setColor(COLOR_GREEN);
+                printf("[Success: Exiting the program....]\n"); 
+                setColor(COLOR_DEFAULT);
+                break;
+            default:
+                setColor(COLOR_YELLOW);
+                printf("[Warning: Invalid choice. Please try again]\n");
+                setColor(COLOR_DEFAULT);
+                break;
         }
     } while (choice != 0); 
 

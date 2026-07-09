@@ -3,33 +3,43 @@
 #include "../include/validation.h"
 #include "../include/logger.h"
 #include "../include/file_io.h"
+#include "../include/color.h"
 
 // * Xuất sang filr txt 
 void exportTxt(Product listProducts[], int count) {
-    FILE *file = fopen("../data/products.txt", "w");
+    FILE *file = fopen("data/products.txt", "w");
     if (file == NULL) {
-        printf("Cannot create data/products.txt\n");
+        setColor(COLOR_RED);
+        printf("\t\t[Error: Cannot create products.txt]\n");
+        setColor(COLOR_DEFAULT);
+
         writeLog("EXPORT TXT", "open failed", "FAILED");
         return;
     }
 
-    fprintf(file, "ID    | Name              | Price    | Quantity\n");
+    fprintf(file, "ID\t| Name\t\t\t\t\t| Price\t| Quantity\n");
     int i; 
     for (i = 0 ; i < count; i++) {
-        fprintf(file, "%d   | %s             | %.2f   | %d \n",
+        fprintf(file, "%d\t| %s\t\t| %.2f\t| %d\n",
                 listProducts[i].id, listProducts[i].name, listProducts[i].price, listProducts[i].quantity);
     }
 
     fclose(file);
-    printf("Exported to data/products.txt\n");
+
+    setColor(COLOR_GREEN);
+    printf("\t\t[Success: Exported to products.txt]\n");
+    setColor(COLOR_DEFAULT);
+
     writeLog("EXPORT TXT", "data/products.txt", "SUCCESS");
 }
 
 // * Xuất sang file csv(excel)
 static void exportCsv(Product list[], int count) {
-    FILE *fp = fopen("../data/products.csv", "w");
+    FILE *fp = fopen("data/products.csv", "w");
     if (fp == NULL) {
-        printf("Cannot create data/products.csv\n");
+        setColor(COLOR_RED);
+        printf("\t\t[Error: Cannot create products.csv]\n");
+        setColor(COLOR_DEFAULT);
         writeLog("EXPORT CSV", "open failed", "FAILED");
         return;
     }
@@ -42,15 +52,21 @@ static void exportCsv(Product list[], int count) {
                 list[i].id, list[i].name, list[i].price, list[i].quantity);
     }
     fclose(fp);
-    printf("Exported to data/products.csv\n");
+
+    setColor(COLOR_GREEN);
+    printf("\t\t[Success: Exported to products.csv]\n");
+    setColor(COLOR_DEFAULT);
+
     writeLog("EXPORT CSV", "data/products.csv", "SUCCESS");
 }
 
 // * Xuất sang file cơ sở sữ liệu sql
 void exportSqlite(Product list[], int count) {
-    FILE *fp = fopen("../data/products.sql", "w");
+    FILE *fp = fopen("data/products.sql", "w");
     if (fp == NULL) {
-        printf("Cannot create data/products.sql\n");
+        setColor(COLOR_RED);
+        printf("\t\t[Error: Cannot create products.sql]\n");
+        setColor(COLOR_DEFAULT);
         writeLog("EXPORT SQLITE", "open failed", "FAILED");
         return;
     }
@@ -70,32 +86,45 @@ void exportSqlite(Product list[], int count) {
     }
     fclose(fp);
 
-    printf("===> Exported to data/products.sql <=== \n");
+    setColor(COLOR_GREEN);
+    printf("\t\t[Success: Exported to products.sql]\n");
+    setColor(COLOR_DEFAULT);
     // printf(">>> Run: sqlite3 data/products.db < data/products.sql (for PowerShell)\n >>> sqlite3 data/products.db < data/products.sql (CMD)\n \n");
     writeLog("EXPORT SQLITE", "data/products.sql", "SUCCESS");
 }
 
+// * Option 10: Export Products - menu chức năng xuất dữ liệu sang txt / csv / sqlite
 void menuExportProducts(Product listProducts[], int count) {
     if (count == 0) {
-        printf("No product found.\n");
-        return;
+        setColor(COLOR_YELLOW);
+        printf("\t\t[Notice: No product found]\n"); 
+        setColor(COLOR_DEFAULT);
+        return; 
     }
 
-    printf("\n>>> Export Menu <<<\n");
+    setColor(COLOR_BLUE);
+    printf("\n");
+    printf("\t\t+-----------------+\n");
+    printf("\t\t|   EXPORT MENU   |\n");
+    printf("\t\t+-----------------+\n");
+    setColor(COLOR_DEFAULT);
+
     printf("[1]. Export To TXT\n");
     printf("[2]. Export To CSV\n");
     printf("[3]. Export To SQLite\n");
     printf("[0]. Back\n");
 
+    setColor(COLOR_CYAN);
     int choice = inputInt(">> Enter your choice: ", 0, 3);
+    setColor(COLOR_DEFAULT);
+
     switch (choice)
     {
         case 1: exportTxt(listProducts, count); break;
         case 2: exportCsv(listProducts, count); break;
         case 3: exportSqlite(listProducts, count); break;
         case 0: break;
-        default:
-            break;
+        default: break;
     }
 }
 

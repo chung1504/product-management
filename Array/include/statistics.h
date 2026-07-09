@@ -2,7 +2,7 @@
 #define STATISTICS_H
 #include "product.h"
 
-// * Option 8: Statistics - tính các thông kê về product
+// * Option 9: Statistics - tính các thông kê về product
 void menuStatisticsProduct(Product listProducts[], int count); 
 
 #endif

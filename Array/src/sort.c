@@ -4,6 +4,7 @@
 #include "../include/validation.h"
 #include "../include/file_io.h"
 #include "../include/logger.h"
+#include "../include/color.h"
 
 // * Hàm static hoán đổi 2 phần tử 
 static void swapProduct(Product *product1, Product *product2) {
@@ -29,26 +30,40 @@ static int compareByField(Product product1, Product product2, int field) {
     return 0; 
 }
 
-// * Menu chọn các chức năng sắp xếp 
+// * Option 8: Menu chọn các chức năng sắp xếp 
 void menuSortProducts(Product listProducts[], int count) {
     if (count == 0) {
-        printf("No product found\n");
+        setColor(COLOR_YELLOW);
+        printf("\t\t[Notice: No product found]\n"); 
+        setColor(COLOR_DEFAULT);
         return; 
     }
 
-    printf("\n>>> Sort Menu <<<\n");
+    setColor(COLOR_BLUE);
+    printf("\n");
+    printf("\t\t+-----------------+\n");
+    printf("\t\t|    SORT MENU    |\n");
+    printf("\t\t+-----------------+\n");
+    setColor(COLOR_DEFAULT);
+
     printf("[1]. Sort by ID\n");
     printf("[2]. Sort by Name\n");
     printf("[3]. Sort by Price \n");
     printf("[4]. Sort by Quantity \n");
     printf("[0]. Back\n");
+
+    setColor(COLOR_CYAN);
     int choice = inputInt(">> Enter your choice: ", 0, 4);
+    setColor(COLOR_DEFAULT);
 
     if (choice == 0) return; 
 
     printf("\t[1]. Ascending\n");
     printf("\t[2]. Descending\n");
+
+    setColor(COLOR_CYAN);
     int choice2 = inputInt("\t>> Enter your choice: ", 1, 2);
+    setColor(COLOR_DEFAULT);
     
     int i, j; 
     for (i = 0; i < count - 1; i++) {
@@ -64,6 +79,10 @@ void menuSortProducts(Product listProducts[], int count) {
     }
 
     saveProductsToFile(listProducts, count); 
-    printf("Products sorted successfully.\n");
+    
+    setColor(COLOR_GREEN);
+    printf("[Success: Products sorted successfully]\n");
+    setColor(COLOR_DEFAULT);
+
     writeLog("SORT", choice2 == 1 ? "Ascending" : "Descending", "SUCCESS");
 }

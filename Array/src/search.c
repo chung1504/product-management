@@ -4,6 +4,7 @@
 #include "../include/search.h"
 #include "../include/validation.h"
 #include "../include/table.h"
+#include "../include/color.h"
 
 /**
  * ! Module Search
@@ -97,7 +98,10 @@ static int checkCondition(float realValueProduct, const char *operator, float va
 
 // * Tìm bằng id 
 static void searchById(Product listProducts[], int count) {
-    int id = inputInt(">>> Enter ID to find: ", 1, 99999999); 
+    setColor(COLOR_CYAN);
+    int id = inputInt(">> Enter ID to find: ", 1, 99999999); 
+    setColor(COLOR_DEFAULT); 
+
     Product result[1]; 
     int found = 0; 
     int i;
@@ -114,7 +118,9 @@ static void searchById(Product listProducts[], int count) {
 // * Tìm bằng ký tự
 static void sreachByKeyword(Product listProducts[], int count) {
     char keyword[MAX_NAME_LENGTH]; 
-    inputString(">>> Enter keyword to find: ", keyword, MAX_NAME_LENGTH); 
+    setColor(COLOR_CYAN);
+    inputString(">> Enter keyword to find: ", keyword, MAX_NAME_LENGTH); 
+    setColor(COLOR_DEFAULT); 
 
     Product result[MAX_PRODUCTS]; 
     int found = 0; 
@@ -132,12 +138,16 @@ static void sreachByKeyword(Product listProducts[], int count) {
 // * Tìm kiếm bằng giá trị sản phẩm
 static void searchByPrice(Product listProducts[], int count) {
     char text[30]; 
-    inputString(">>> Enter price condition (ex: >= 100 || = 100): ", text, sizeof(text)); 
+    setColor(COLOR_CYAN);
+    inputString(">> Enter price condition (ex: >= 100 || = 100): ", text, sizeof(text)); 
+    setColor(COLOR_DEFAULT); 
 
     char operator[3]; 
     float value; 
     if (!parseConditions(text, operator, &value)) {
-        printf("Invalid condition format\n");
+        setColor(COLOR_RED);
+        printf("[Error: Invalid condition format]\n");
+        setColor(COLOR_DEFAULT);
         return;
     }
 
@@ -157,13 +167,17 @@ static void searchByPrice(Product listProducts[], int count) {
 // * Tìm kiến bằng sản phẩm kho hàng 
 static void searchByQuantity(Product listProducts[], int count) {
     char text[30]; 
-    inputString(">>> Enter quantity condition (ex: >= 100 hoặc = 10): ", text, MAX_NAME_LENGTH);
+    setColor(COLOR_CYAN);
+    inputString(">> Enter quantity condition (ex: >= 100 hoặc = 10): ", text, MAX_NAME_LENGTH);
+    setColor(COLOR_DEFAULT); 
 
     char operator[3]; 
     float value; 
 
     if (!parseConditions(text, operator, &value)) {
-        printf("Invalid condition format.\n");
+        setColor(COLOR_RED);
+        printf("[Error: Invalid condition format]\n");
+        setColor(COLOR_DEFAULT);
         return;
     }
 
@@ -180,21 +194,31 @@ static void searchByQuantity(Product listProducts[], int count) {
     printProductTable(results, found); 
 }
 
-// * hiện thị menu con để chọn các kiểu tìm kiếm
+// * Option 7:  hiện thị menu con để chọn các kiểu tìm kiếm
 void menuSearchProduct(Product listProducts[], int count) {
     if (count == 0) {
-        printf("No product found\n");
+        setColor(COLOR_YELLOW);
+        printf("[Notice: No product found]\n"); 
+        setColor(COLOR_DEFAULT);
         return; 
     }
 
-    printf("\n>>> Search Menu <<<\n");
+    setColor(COLOR_BLUE);
+    printf("\n");
+    printf("\t\t+-----------------+\n");
+    printf("\t\t|   SEARCH MENU   |\n");
+    printf("\t\t+-----------------+\n");
+    setColor(COLOR_DEFAULT);
+
     printf("[1]. Search by ID\n");
     printf("[2]. Search by Name\n");
     printf("[3]. Search by Price \n");
     printf("[4]. Search by Quantity \n");
     printf("[0]. Back\n");
 
+    setColor(COLOR_CYAN);
     int choice = inputInt(">> Enter your choice: ", 0, 4);
+    setColor(COLOR_DEFAULT);
     switch (choice)
     {
         case 1: searchById(listProducts, count); break;

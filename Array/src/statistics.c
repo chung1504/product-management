@@ -2,6 +2,7 @@
 #include "../include/statistics.h"
 #include "../include/validation.h"
 #include "../include/table.h"
+#include "../include/color.h"
 
 //* Tổng tất cả sản phẩm
 static void totalProducts(Product listProducts[], int count) {
@@ -11,7 +12,9 @@ static void totalProducts(Product listProducts[], int count) {
         countProduct++; 
     }
 
-    printf (">> Total products: %d <<", countProduct); 
+    setColor(COLOR_GREEN);
+    printf ("\t\t[Total products: %d]\n", countProduct); 
+    setColor(COLOR_DEFAULT);
 }
 
 // * TỔng hàng hóa còn lại
@@ -22,7 +25,9 @@ static void totalQuantity(Product listProducts[], int count) {
         sum += listProducts[i].quantity;
     }
 
-    printf (">> Total quantity: %d <<", sum);  
+    setColor(COLOR_GREEN);
+    printf ("\t\t[Total quantity: %d]\n", sum); 
+    setColor(COLOR_DEFAULT); 
 }
 
 // * Giá sản phẩm cao nhất 
@@ -40,7 +45,10 @@ static void highestPrice(Product listProducts[], int count) {
     Product result[1]; 
     result[0] = listProducts[index];
     printProductTable(result, 1); 
-    printf (">> The products highest price: %.2f <<\n", maxPrice); 
+
+    setColor(COLOR_GREEN);
+    printf ("[The products highest price: %.2f]\n", maxPrice); 
+    setColor(COLOR_DEFAULT); 
 }
 
 // * Giá sản phẩm thấp nhất 
@@ -58,7 +66,10 @@ static void lowestPrice(Product listProducts[], int count) {
     Product result[1]; 
     result[0] = listProducts[index];
     printProductTable(result, 1); 
-    printf (">> The products lowest price: %.2f <<", minPrice);  
+
+    setColor(COLOR_GREEN);
+    printf ("[The products lowest price: %.2f]\n", minPrice); 
+    setColor(COLOR_DEFAULT); 
 }
 
 // * Giá trung bình các sản phẩm
@@ -69,7 +80,9 @@ static void averagePrice(Product listProducts[], int count) {
         averagePriceProducts += listProducts[i].price;
     }
 
-    printf (">> Total value average of all products: %.2f <<", averagePriceProducts / (float)count); 
+    setColor(COLOR_GREEN);
+    printf ("\t[Total value average of all products: %.2f]\n", averagePriceProducts / (float)count); 
+    setColor(COLOR_DEFAULT); 
 }
 
 // * Tổng giá trị sản phẩm 
@@ -80,19 +93,28 @@ static void totalValue(Product listProducts[], int count) {
         averagePriceProducts += listProducts[i].price;
     }
 
-    printf (">> Total value of all products: %.2f <<", averagePriceProducts); 
+    setColor(COLOR_GREEN);
+    printf ("\t[Total value of all products: %.2f]\n", averagePriceProducts); 
+    setColor(COLOR_DEFAULT); 
 }
 
 
-// * Option 8: Statistics - tính các thông kê về product
+// * Option 9: Statistics - tính các thông kê về product
 void menuStatisticsProduct(Product listProducts[], int count) {
-    printf("\n=== Statistics ===\n");
     if (count == 0) {
-        printf("No product found.\n");
-        return;
+        setColor(COLOR_YELLOW);
+        printf("\t\t[Notice: No product found]\n"); 
+        setColor(COLOR_DEFAULT);
+        return; 
     }
 
-    printf("\n>>> Statistics Menu <<<\n");
+    setColor(COLOR_BLUE);
+    printf("\n");
+    printf("\t\t+-----------------+\n");
+    printf("\t\t| STATISTICS MENU |\n");
+    printf("\t\t+-----------------+\n");
+    setColor(COLOR_DEFAULT);
+
     printf("[1]. Total Products\n");
     printf("[2]. Total Quantity\n");
     printf("[3]. Highest Price\n");
@@ -101,7 +123,10 @@ void menuStatisticsProduct(Product listProducts[], int count) {
     printf("[6]. Total Value\n");
     printf("[0]. Back\n");
 
+    setColor(COLOR_CYAN);
     int choice = inputInt(">> Enter your choice: ", 0, 6);
+    setColor(COLOR_DEFAULT);
+
     switch (choice)
     {
         case 1: totalProducts(listProducts, count); break;

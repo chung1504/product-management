@@ -1,15 +1,18 @@
 #include <stdio.h>
 #include <time.h> 
 #include "../include/logger.h"
+#include "../include/color.h"
 
-#define LOG_FILE "../data/logger.txt"
+#define LOG_FILE "data/logger.txt"
 
 // * Ghi 1 dòng log vào file log.txt khi có thao tác quan trọng như thêm xóa sửa 
 void writeLog(const char *action, const char *details, const char *status) {
     // "a" là chế độ mở file để ghi thêm vào cuối file, nếu file chưa tồn tại thì tạo mới
     FILE *file = fopen(LOG_FILE, "a"); 
     if (file == NULL) {
-        perror("Error opening log file");
+        setColor(COLOR_RED);
+        perror("[Error: Cannot opening log file]");
+        setColor(COLOR_DEFAULT);
         return;
     }
 
@@ -24,11 +27,13 @@ void writeLog(const char *action, const char *details, const char *status) {
     fclose(file);
 }
 
-// * Đọc và in toàn bộ file log.txt ra màn hình 
+// * Option 11: Đọc và in toàn bộ file log.txt ra màn hình 
 void viewLogs() {
     FILE *file = fopen(LOG_FILE, "r"); 
     if (file == NULL) {
-        printf("No logs found.\n");
+        setColor(COLOR_YELLOW);
+        printf("\t\t[Notice: No logs found]\n");
+        setColor(COLOR_DEFAULT); 
         return;
     }
 
@@ -39,7 +44,9 @@ void viewLogs() {
         printf("%s", line); 
     }
     if (!hasContent) {
-        printf("No logs found.\n"); 
+        setColor(COLOR_YELLOW);
+        printf("\t\t[Notice: No logs found]\n");
+        setColor(COLOR_DEFAULT); 
     }
     fclose(file);
 }

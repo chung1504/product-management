@@ -1,6 +1,7 @@
 #include <stdio.h> 
 #include <string.h> 
 #include "../include/table.h"
+#include "../include/color.h"
 
 // * Vẽ đường kẻ ngang dạng +----+----+ linh động theo độ rộng từng cột
 static void printSeparator(int idWidth, int nameWidth, int priceWidth, int quanlityWidth) {
@@ -23,7 +24,9 @@ static void printSeparator(int idWidth, int nameWidth, int priceWidth, int quanl
 // * In danh sách sản phẩm dưới dạng bảng với độ rộng co giãn 
 void printProductTable(Product listProducts[], int count) {
     if (count == 0) {
-        printf("=====> Không có sản phẩm nào để hiển thị <======\n");
+        setColor(COLOR_YELLOW);
+        printf("\t\t[Notice: No product found]\n"); 
+        setColor(COLOR_DEFAULT);
         return; 
     }
 
@@ -60,13 +63,11 @@ void printProductTable(Product listProducts[], int count) {
         }
     } 
 
-    // Đường gạc ngang trên cùng 
     printSeparator(idWidth, nameWidth, priceWidth, quantityWidth); 
 
     // Các chữ tiêu đề 
     printf("| %-*s | %-*s | %-*s | %-*s |\n", idWidth, "ID", nameWidth, "Name", priceWidth, "Price", quantityWidth, "Quantity"); 
 
-    // Gạch ngang 
     printSeparator(idWidth, nameWidth, priceWidth, quantityWidth); 
 
     // Thông tin các sinh viên 
@@ -81,5 +82,7 @@ void printProductTable(Product listProducts[], int count) {
     // Gạch ngang 
     printSeparator(idWidth, nameWidth, priceWidth, quantityWidth); 
 
-    printf(">> Total: %d products <<\n", count);
+    setColor(COLOR_BLUE);
+    printf("\t[Total: %d products]\n", count);
+    setColor(COLOR_DEFAULT);
 }

@@ -3,7 +3,7 @@
 #include "product.h"
 
 /* 
-    * Option 5: Search Product - hiện thị menu con để chọn các kiểu tìm kiếm
+    * Option 7: Search Product - hiện thị menu con để chọn các kiểu tìm kiếm
         - Tìm theo id
         - tìm thoe name / ký tự 
         - tìm theo giá

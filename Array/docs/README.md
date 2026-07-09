@@ -1,3 +1,5 @@
+[LINK GITHUB: https://github.com/chung1504/product-management.git]
+
 # 📘 Tài liệu dự án — Product Management System (Array Version)
 
 Tài liệu này giúp hiểu nhanh: dự án có bao nhiêu file, mỗi file làm gì, và các module liên hệ với nhau như thế nào.
@@ -72,26 +74,5 @@ flowchart TD
 ```
 
 **Cách đọc:** `main.c` gọi tới các module nghiệp vụ (menu chức năng). Các module này lại dùng chung `validation.c` (nhập liệu), `table.c` (in bảng), `file_io.c` (lưu file) và `logger.c` (ghi log).
-
----
-
-## 5. Luồng chạy chương trình (tổng quát)
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant M as main.c
-    participant F as file_io.c
-    participant PM as product_manager.c
-
-    M->>F: loadProductsFromFile()
-    loop Vòng lặp menu
-        U->>M: Chọn chức năng
-        M->>PM: Gọi hàm menu tương ứng
-        PM->>F: saveProductsToFile() (nếu có thay đổi)
-    end
-    U->>M: Chọn Exit (0)
-    M-->>U: Kết thúc chương trình
-```
 
 ---
