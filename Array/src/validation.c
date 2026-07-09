@@ -6,19 +6,16 @@
 
 // * Xử lí nhập số nguyên
 int inputInt(const char *prompt, int minValue, int maxValue) {
-    char line[128]; 
+    char line[100]; 
     int value; 
     while (1) {
         printf("%s", prompt); 
 
         // Nếu fgets đọc bị lỗi, trả về NULL, tiếp tục vòng lặp để yêu cầu nhập lại
-        if (fgets(line, sizeof(line), stdin) == NULL) {
-            continue;
-        }
+        if (fgets(line, sizeof(line), stdin) == NULL) continue;
 
         // Làm thùng rác chứa các kí tự thừa 
         char extra; 
-
         // Nó sẽ lấy line để mổ xẻ theo %d gán vào value, %c vào extra
         if (sscanf(line, " %d %c", &value, &extra) != 1) {
             setColor(COLOR_YELLOW);
@@ -40,7 +37,7 @@ int inputInt(const char *prompt, int minValue, int maxValue) {
 
 // * Xử lí nhập số thực
 float inputFloat(const char *prompt, float minValue, float maxValue) {
-    char line[128];
+    char line[100];
     float value; 
 
     while(1) {
@@ -70,6 +67,13 @@ float inputFloat(const char *prompt, float minValue, float maxValue) {
 
 // * Xử lí nhập chuỗi ký tự
 void inputString(const char *prompt, char *buffer, int maxLength) {
+    if (maxLength <= 0) {
+        setColor(COLOR_YELLOW);
+        printf("\t[Waring: Chiều dài chuỗi phải lớn hơn 0]\n");
+        setColor(COLOR_DEFAULT);
+        return; 
+    }
+
     while(1) {
         printf("%s", prompt); 
 
@@ -79,20 +83,25 @@ void inputString(const char *prompt, char *buffer, int maxLength) {
         }
 
         // Loại bỏ ký tự '\n' nếu có
-        size_t length = strlen(buffer);
+        int length = strlen(buffer);
+        int hasNewLine = 0; 
         if (length > 0 && buffer[length - 1] == '\n') {
             buffer[length - 1] = '\0'; 
             length--;
-        } else {  
+            hasNewLine = 1;
+        } 
+
+        if (!hasNewLine) {  
             // Nếu không có '\n' thì có nghĩa là người dùng nhập quá dài, cần cắt ngang để dọn sạch bộ đệm bàn phím
             clearInputBuffer();
         }
 
-        if (maxLength == 0) {
+        // Check nhập rỗng 
+        if (length == 0) {
             setColor(COLOR_YELLOW);
-            printf("\t[Waring: Chiều dài chuỗi phải lớn hơn 0]\n");
+            printf("\t[Waring: Không được nhập rỗng]\n");
             setColor(COLOR_DEFAULT);
-            continue; 
+            continue;
         }
 
         return; 
@@ -112,7 +121,7 @@ int confirmYesNo(const char *prompt) {
         }
 
         // Dọn bộ nhớ đệm nếu người dùng nhập quá dài 
-        size_t length = strlen(line); 
+        int length = strlen(line); 
         if (length > 0 && line[length - 1] != '\n') {
             clearInputBuffer(); 
         }

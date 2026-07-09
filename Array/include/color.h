@@ -8,7 +8,7 @@
 #define COLOR_YELLOW 14   // todo vàng
 #define COLOR_DEFAULT 7   // Xám 
 #define COLOR_CYAN    11  // Màu xanh ngọc 
-#define COLOR_BLUE    9   // ? Màu xanh dương sáng
+#define COLOR_BLUE    9   // ? Màu xanh dương 
 
 void setColor(int color); 
 
