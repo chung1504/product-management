@@ -133,7 +133,7 @@ int confirmYesNo(const char *prompt) {
         // Nếu = 1 tức là người dùng chỉ nhập 1 kí tự thôi 
         if (numberScanned == 1) {
             // Lấy kí tự đầu tiên ra éo in hoa để kiểm tra 
-            char c = toupper(line[0]);
+            char c = toupper(choice);
             if (c == 'Y') return 1; 
             if (c == 'N') return 0;
         }
