@@ -11,3 +11,7 @@
 [2026-07-10 05:46:22] APPEND: Append products - SUCCESS
 [2026-07-10 05:51:59] APPEND: Append products - SUCCESS
 [2026-07-10 06:04:28] DELETE: ID deleted - SUCCESS
+[2026-07-10 16:31:33] DELETE: All products - SUCCESS
+[2026-07-10 16:32:04] WRITE: Overwrite data.bin - SUCCESS
+[2026-07-10 16:33:01] EXPORT TXT: data/products.txt - SUCCESS
+[2026-07-10 16:33:04] EXPORT CSV: data/products.csv - SUCCESS

@@ -7,21 +7,7 @@
 #include "../include/file_io.h"
 #include "../include/color.h"
 
-// * Option 1: Write Products - nhập mới hoàn toàn, ghi đè dữ liệu cũ 
-void menuWriteProducts(Product list[], int *count) {
-    *count = 25; // Gán thẳng số lượng là 25
-    int i;
-    for (i = 0; i < *count; i++) {
-        list[i].id = i + 1; // ID chạy từ 101, 102...
-        sprintf(list[i].name, "Product Layer %d", i + 1); // Tên tự động tăng dần
-        list[i].price = (float)(15.5 + i * 2.5); // Giá tiền tự tăng
-        list[i].quantity = 10 + i; // Số lượng tự tăng
-    }
-
-    saveProductsToFile(list, *count); 
-}
-
-// * Hàm nội bộ dùng để nhập thông tin 1 sản phẩm từ bàn phím, đảm báo id không bị trùng
+// * Nhập thông tin 1 sản phẩm từ bàn phím
 static void inputOneProduct(Product *p, Product listProducts[], int count) {
     while (1) {
         p->id = inputInt("\t[+] Enter product ID: ", 1, 999999999); 
@@ -36,6 +22,53 @@ static void inputOneProduct(Product *p, Product listProducts[], int count) {
     inputString("\t[+] Enter product name: ", p->name, MAX_NAME_LENGTH); 
     p->price = inputFloat("\t[+] Enter product price: ", 0.01, 999999999.99);
     p->quantity = inputInt("\t[+] Enter product quantity: ", 0, 999999999);
+}
+
+// * Option 1: Write Products - nhập mới hoàn toàn, ghi đè dữ liệu cũ 
+void menuWriteProducts(Product listProducts[], int *count) {
+    // *count = 25; // Gán thẳng số lượng là 25
+    // int i;
+    // for (i = 0; i < *count; i++) {
+    //     list[i].id = i + 1; 
+    //     sprintf(list[i].name, "Product Layer %d", i + 1); 
+    //     list[i].price = (float)(15.5 + i * 2.5);
+    //     list[i].quantity = 10 + i; 
+    // }
+
+    // saveProductsToFile(list, *count); 
+
+    setColor(COLOR_BLUE);
+    printf("\n");
+    printf("\t\t+-----------------+\n");
+    printf("\t\t|  WRITE PRODUCTS |\n");
+    printf("\t\t+-----------------+\n");
+    setColor(COLOR_DEFAULT);
+
+    setColor(COLOR_CYAN);
+    int n = inputInt(">> Enter the number of products to write: ", 0, MAX_PRODUCTS); 
+    setColor(COLOR_DEFAULT);
+
+    // Vì ghi đè dữ liệu nên reset *count = 0 
+    *count = 0; 
+
+    int i; 
+    for (i = 0 ; i < n; i++) {
+        printf("[-] Enter details for product %d:\n", i + 1);
+        inputOneProduct(&listProducts[*count], listProducts, *count);
+        (*count)++;  
+    }
+
+    if (saveProductsToFile(listProducts, *count) == 0) {
+        setColor(COLOR_GREEN);
+        printf("[Success: Products wrote to file successfully]\n");
+        setColor(COLOR_DEFAULT);
+        writeLog("WRITE","Overwrite data.bin", "SUCCESS");
+    } else {
+        setColor(COLOR_RED);
+        printf("[Error: Failed to save products to file]\n");
+        setColor(COLOR_DEFAULT);
+        writeLog("WRITE","Overwrite data.bin", "FAILED");
+    }
 }
 
 // * Option 2: AppendProducts - thêm sản phẩm mới vào cuối mảng , k mất dữ liệu 
