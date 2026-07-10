@@ -32,13 +32,6 @@ static void totalQuantity(Product listProducts[], int count) {
 
 // * Giá sản phẩm cao nhất 
 static void highestPrice(Product listProducts[], int count) {
-    if (count == 0) {
-        setColor(COLOR_YELLOW);
-        printf("\t\t[Notice: No product found]\n"); 
-        setColor(COLOR_DEFAULT);
-        return; 
-    }
-
     int i; 
     float maxPrice = listProducts[0].price; 
     for (i = 0; i < count; i++) {
@@ -65,22 +58,26 @@ static void highestPrice(Product listProducts[], int count) {
 
 // * Giá sản phẩm thấp nhất 
 static void lowestPrice(Product listProducts[], int count) {
-    float minPrice; 
+    float minPrice = listProducts[0].price; 
     int i; 
-    int index = 0;
     for (i = 0; i < count; i++) {
         if (minPrice > listProducts[i].price) {
             minPrice = listProducts[i].price; 
-            index = i;
         }
     }
 
-    Product result[1]; 
-    result[0] = listProducts[index];
-    printProductTable(result, 1); 
+    Product result[MAX_PRODUCTS];
+    int resultCount = 0; 
+    for (i = 0; i < count; i++) {
+        if (listProducts[i].price == minPrice) {
+            result[resultCount] = listProducts[i];
+            resultCount++; 
+        }
+    }
+    printProductTable(result, resultCount); 
 
     setColor(COLOR_GREEN);
-    printf ("[The products lowest price: %.2f]\n", minPrice); 
+    printf ("[The products lowest price: %.2f and found %d products]\n", minPrice, resultCount); 
     setColor(COLOR_DEFAULT); 
 }
 
@@ -148,8 +145,7 @@ void menuStatisticsProduct(Product listProducts[], int count) {
         case 5: averagePrice(listProducts, count); break;
         case 6: totalValue(listProducts, count); break;
         case 0: break;
-        default:
-            break;
+        default: break;
     }
 }
 
