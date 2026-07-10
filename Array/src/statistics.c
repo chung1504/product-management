@@ -32,22 +32,34 @@ static void totalQuantity(Product listProducts[], int count) {
 
 // * Giá sản phẩm cao nhất 
 static void highestPrice(Product listProducts[], int count) {
-    float maxPrice; 
+    if (count == 0) {
+        setColor(COLOR_YELLOW);
+        printf("\t\t[Notice: No product found]\n"); 
+        setColor(COLOR_DEFAULT);
+        return; 
+    }
+
     int i; 
-    int index = 0;
+    float maxPrice = listProducts[0].price; 
     for (i = 0; i < count; i++) {
         if (maxPrice < listProducts[i].price) {
             maxPrice = listProducts[i].price; 
-            index = i; 
         }
     }
 
-    Product result[1]; 
-    result[0] = listProducts[index];
-    printProductTable(result, 1); 
+    Product result[MAX_PRODUCTS]; 
+    int resultCount = 0; 
+    for (i = 0; i < count; i++) {
+        if (listProducts[i].price == maxPrice) {
+            result[resultCount] = listProducts[i];
+            resultCount++;
+        }
+    }
+
+    printProductTable(result, resultCount); 
 
     setColor(COLOR_GREEN);
-    printf ("[The products highest price: %.2f]\n", maxPrice); 
+    printf ("[The products highest price: %.2f and found %d products]\n", maxPrice, resultCount); 
     setColor(COLOR_DEFAULT); 
 }
 
