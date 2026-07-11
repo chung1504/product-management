@@ -240,14 +240,14 @@ void menuModifyProducts(Product listProducts[], int count) {
     }
 
     setColor(COLOR_CYAN);
-    int id = inputInt(">> Enter product ID to modify: ", 1, 999999999);
+    int idToEdit = inputInt(">> Enter product ID to modify: ", 1, 999999999);
     setColor(COLOR_DEFAULT);
 
     // Tìm xem sản phẩm có id trong mảng không
     int index = -1; 
     int i; 
     for (i = 0; i < count; i++) {
-        if (listProducts[i].id == id) {
+        if (listProducts[i].id == idToEdit) {
             index = i;
             break; 
         }
@@ -255,23 +255,27 @@ void menuModifyProducts(Product listProducts[], int count) {
 
     if (index == -1) {
         setColor(COLOR_RED);
-        printf("[Error: Không tìm thấy sản phẩm có id %d]\n", id); 
+        printf("[Error: No product has id %d]\n", idToEdit); 
         setColor(COLOR_DEFAULT);
         writeLog("MODIFY", "Product not found", "FAILED");
         return; 
     }
 
-    printf("[-] Sản phẩm được tìm thấy. Nhập thông tin mới: \n");
+    printf("[-] Product found. Enter new infomation: \n");
 
     // Cho phép giữ nguyên id, hoặc đổi id khác nếu chưa tồn tại id đó 
-    int newId = inputInt("\t[+] New Product ID: ", 1, 999999999); 
+    int newId;
+    while (1) {
+        newId = inputInt("\t[+] New Product ID: ", 1, 999999999); 
 
-    if (newId != id && isIdExists(listProducts, count, newId, index)) {
-        setColor(COLOR_YELLOW);
-        printf("\t[Notice: Id đã tồn tại rồi không thể chỉnh sửa]\n");
-        setColor(COLOR_DEFAULT);
-        writeLog("MODIFY", "Duplicate new ID", "FAILED"); 
-        return; 
+        if (newId != idToEdit && isIdExists(listProducts, count, newId, index)) {
+            setColor(COLOR_YELLOW);
+            printf("\t[Notice: Id existed cannot edit]\n");
+            setColor(COLOR_DEFAULT);
+            writeLog("MODIFY", "Duplicate new ID", "FAILED"); 
+            continue; 
+        }
+        break;
     }
 
     char newName[MAX_NAME_LENGTH];
