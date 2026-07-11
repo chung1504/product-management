@@ -34,6 +34,7 @@ static void totalQuantity(Product listProducts[], int count) {
 static void highestPrice(Product listProducts[], int count) {
     int i; 
     float maxPrice = listProducts[0].price; 
+    // Tìm giá sản phẩm cao nhất 
     for (i = 0; i < count; i++) {
         if (maxPrice < listProducts[i].price) {
             maxPrice = listProducts[i].price; 
@@ -42,6 +43,7 @@ static void highestPrice(Product listProducts[], int count) {
 
     Product result[MAX_PRODUCTS]; 
     int resultCount = 0; 
+    // Nếu sản phầm vị trí nào = maxPrice thì gán sang mảng mới
     for (i = 0; i < count; i++) {
         if (listProducts[i].price == maxPrice) {
             result[resultCount] = listProducts[i];

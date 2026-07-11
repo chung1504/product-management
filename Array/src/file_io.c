@@ -18,7 +18,7 @@ int loadProductsFromFile(Product listProducts[], int *count) {
             return 0;
         }
 
-        // Nếu đến đây vẫn NULL thì mới thực sự là lỗi (Ví dụ: Sai đường dẫn thư mục)
+        // Nếu đến đây vẫn NULL thì mới thực sự là lỗi
         setColor(COLOR_RED);
         printf("[Error: Cannot open or create %s]\n", DATA_FILE);
         setColor(COLOR_DEFAULT);
@@ -35,7 +35,7 @@ int loadProductsFromFile(Product listProducts[], int *count) {
     return 0; 
 }
 
-// * Ghi đè toàn bộ data xuống file.bin 
+// * Ghi đè toàn bộ mảng xuống file.bin 
 int saveProductsToFile(Product listProducts[], int count) {
     // "wb" = write binary, GHI ĐÈ toàn bộ nội dung file cũ 
     FILE *file = fopen(DATA_FILE, "wb"); 
@@ -46,6 +46,7 @@ int saveProductsToFile(Product listProducts[], int count) {
         return -1; 
     }
 
+    // Ghi cả nấy phtu xuống luôn
     fwrite(listProducts, sizeof(Product), count, file);
     fclose(file);
     return 0; 

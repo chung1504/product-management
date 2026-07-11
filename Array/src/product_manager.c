@@ -44,6 +44,16 @@ void menuWriteProducts(Product listProducts[], int *count) {
     printf("\t\t+-----------------+\n");
     setColor(COLOR_DEFAULT);
 
+    printf("[1]. Write product\n");
+    printf("[0]. Back\n");
+
+    int choice; 
+    setColor(COLOR_CYAN);
+    choice = inputInt(">> Enter choice: ", 0, 1); 
+    setColor(COLOR_DEFAULT);
+
+    if (choice == 0) return; 
+
     setColor(COLOR_CYAN);
     int n = inputInt(">> Enter the number of products to write: ", 0, MAX_PRODUCTS); 
     setColor(COLOR_DEFAULT);
@@ -88,14 +98,15 @@ void menuAppendProducts(Product listProducts[], int *count) {
     choice = inputInt(">> Enter choice: ", 0, 1); 
     setColor(COLOR_DEFAULT);
 
-
     if (choice == 0) return; 
 
     setColor(COLOR_CYAN);
-    int n = inputInt(">> Enter the number of products to append: ", 0, MAX_PRODUCTS - (*count)); 
+    int n = inputInt(">> Enter the number of products to append: ", 1, MAX_PRODUCTS - (*count)); 
     setColor(COLOR_DEFAULT);
 
+    // Lưu lại số sản phẩm ban đầu trước khi thêm mới 
     int startCount = *count;
+
     for (int i = 0; i < n; i++) {
         if (*count >= MAX_PRODUCTS) {
             setColor(COLOR_RED); 
@@ -108,18 +119,17 @@ void menuAppendProducts(Product listProducts[], int *count) {
         (*count)++;
     }
 
-    // Theo đúng tinh thần "Append" (mở file ở chế độ ab), ta chỉ cần ghi THÊM
-    // những bản ghi mới vào CUỐI file, không đụng tới phần dữ liệu cũ.
-    FILE *fp = fopen(DATA_FILE, "ab");
-    if (fp == NULL) {
+    // ab: append birary: ghi mới vào cuối file, không đụng tới phần dữ liệu cũ.
+    FILE *file = fopen(DATA_FILE, "ab");
+    if (file == NULL) {
         setColor(COLOR_RED); 
         printf("[Error: cannot open %s for appending]\n", DATA_FILE);
         setColor(COLOR_DEFAULT);
         writeLog("APPEND", "Append products", "FAILED");
         return;
     }
-    fwrite(&listProducts[startCount], sizeof(Product), *count - startCount, fp);
-    fclose(fp);
+    fwrite(&listProducts[startCount], sizeof(Product), (*count) - startCount, file);
+    fclose(file);
 
     setColor(COLOR_GREEN);
     printf("[Success: Products have been appended to the file successfully]\n");
@@ -143,11 +153,13 @@ void menuReadProducts(Product listProducts[], int count) {
         return; 
     }
 
-    const int PAGE_SIZE = 10; // mỗi trang 10 sp
-    int totalPages = (count + PAGE_SIZE -1) / PAGE_SIZE; // tổng trang 
-    int page = 1; // Mặc định là trang 1 
+    const int PAGE_SIZE = 10;
+    int totalPages = (count + PAGE_SIZE - 1) / PAGE_SIZE;
+    int page = 1; 
 
     while (1) {
+        // system("cls");
+
         // Xác định sản phẩm đầu tiên của trang hiện tại 
         int start = (page - 1) * PAGE_SIZE; 
 
@@ -162,21 +174,20 @@ void menuReadProducts(Product listProducts[], int count) {
         printf("[Page %d / %d]\n", page, totalPages); 
         setColor(COLOR_DEFAULT);
 
-        // gọi hàm in 
         printProductTable(&listProducts[start], end - start); 
 
         printf("\n[N] Next\n[P] Previous\n[Q] Quit\n"); 
         
-
-        char choice[64]; 
+        char choice[50]; 
         setColor(COLOR_CYAN);
         printf(">> Enter character (n/p/q): ");
         if (fgets(choice, sizeof(choice), stdin) == NULL) {
-            break; 
+            continue; 
         }
         setColor(COLOR_DEFAULT);
         choice[strcspn(choice, "\n")] = '\0';
 
+        // Check số lượng kí tự
         if (strlen(choice) != 1) {
             setColor(COLOR_YELLOW);
             printf("[Warning: Vui lòng nhập lại, chỉ nhập kí tự đơn (N, P, Q) !]\n"); 
@@ -184,9 +195,9 @@ void menuReadProducts(Product listProducts[], int count) {
             continue;
         }
 
+        // Kiểm tra kí tự nhập vào
         char c = choice[0]; 
         if (c == 'n' || c == 'N') {
-            // Nếu chưa là cuối trang thì tăng lên 1 
             if (page < totalPages) 
                 page++; 
             else {
@@ -195,7 +206,6 @@ void menuReadProducts(Product listProducts[], int count) {
                 setColor(COLOR_DEFAULT);
             }
         } else if (c == 'p' || c == 'P') {
-            // Nếu chưa phải trang đầu thì giảm đi 1 trang 
             if (page > 1) 
                 page--;
             else {
@@ -203,10 +213,9 @@ void menuReadProducts(Product listProducts[], int count) {
                 printf("\t[This is the first page]\n"); 
                 setColor(COLOR_DEFAULT);
             }
-        } 
-        else if (c == 'q' || c == 'Q') 
-            break; 
-        else { 
+        } else if (c == 'q' || c == 'Q') {
+            break;
+        } else { 
             setColor(COLOR_YELLOW);
             printf("[Warining: Only (n | p | q)]\n"); 
             setColor(COLOR_DEFAULT); 
