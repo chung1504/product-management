@@ -5,8 +5,6 @@
 ### *Hệ thống quản lý sản phẩm bằng ngôn ngữ C — Array Version*
 
 ![Language](https://img.shields.io/badge/Language-C-blue?logo=c&logoColor=white)
-![Standard](https://img.shields.io/badge/Standard-C89%2FC90-orange)
-![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?logo=windows&logoColor=white)
 ![Storage](https://img.shields.io/badge/Storage-Binary%20File-lightgrey)
 ![Build](https://img.shields.io/badge/Build-Makefile-success)
 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
@@ -17,9 +15,9 @@
 
 ## 📖 Giới thiệu
 
-**Product Management System** là chương trình quản lý sản phẩm chạy trên console, được xây dựng bằng ngôn ngữ **C chuẩn C89/C90**. Dữ liệu được lưu trong **mảng tĩnh (Array)** khi chạy và được lưu trữ bền vững xuống **file nhị phân**, hỗ trợ xuất dữ liệu sang nhiều định dạng khác nhau.
+**Product Management System** là chương trình quản lý sản phẩm chạy trên console, được xây dựng bằng ngôn ngữ **C**. Dữ liệu được lưu trong **mảng tĩnh (Array)** khi chạy và được lưu trữ bền vững xuống **file nhị phân**, hỗ trợ xuất dữ liệu sang nhiều định dạng khác nhau.
 
-Đây là đồ án môn **PRF192 – Programming Fundamentals** tại **FPT University**, được xây dựng theo hướng module hoá: mỗi chức năng được tách riêng thành 1 file `.c`/`.h`, dễ đọc, dễ mở rộng và dễ bảo trì.
+Đây là bài tập cuối môn **PRF192 – Programming Fundamentals** tại **FPT University**, được xây dựng theo hướng module hoá: mỗi chức năng được tách riêng thành 1 file `.c`/`.h`, dễ đọc, dễ mở rộng và dễ bảo trì.
 
 ---
 
@@ -44,14 +42,13 @@
 Array/
 ├── Makefile                        # Cấu hình build toàn bộ project bằng lệnh `make`
 │
+├── README.md                       # Mô tả các chức năng trong file này 
+│
 ├── data/                            # Nơi lưu dữ liệu thực tế của chương trình
 │   ├── data.bin                     # File nhị phân lưu danh sách sản phẩm (dữ liệu chính)
 │   ├── products.csv                 # Dữ liệu sau khi xuất ra CSV
 │   ├── products.sql                 # Dữ liệu sau khi xuất ra SQL
 │   └── logger.txt                   # Log lịch sử các thao tác
-│
-├── docs/
-│   └── README.md                    # Tài liệu mô tả dự án
 │
 ├── include/                         # Header (.h) - khai báo hàm, struct, hằng số
 │   ├── color.h                      # Khai báo mã màu & hàm đổi màu chữ terminal
@@ -81,27 +78,21 @@ Array/
     ├── table.c                      # Vẽ bảng dữ liệu ra console (căn cột tự động)
     └── validation.c                 # Nhập & kiểm tra dữ liệu đầu vào an toàn
 ```
-
 ---
 
-## ⚙️ Yêu cầu hệ thống
+## ⚙️ Yêu cầu
 
 - Hệ điều hành: **Windows** (do sử dụng `windows.h` cho tính năng đổi màu terminal)
-- Compiler hỗ trợ chuẩn **C89/C90**: GCC (MinGW) hoặc tương đương
 - Công cụ `make` để build qua `Makefile`
 
 ## 🚀 Cài đặt & Chạy chương trình
 
 ```bash
 # 1. Clone project về máy
-git clone https://github.com/<username>/<repo-name>.git
-cd Array
+git clone https://github.com/chung1504/product-management.git
 
 # 2. Build chương trình bằng Makefile
 make
-
-# 3. Chạy chương trình
-management_product_console.exe
 ```
 
 > 💡 Dữ liệu sẽ tự động được lưu vào thư mục `data/` sau mỗi lần thêm/sửa/xoá, không cần thao tác lưu tay.
