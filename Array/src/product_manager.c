@@ -31,7 +31,7 @@ void menuWriteProducts(Product listProducts[], int *count) {
     // for (i = 0; i < *count; i++) {
     //     list[i].id = i + 1; 
     //     sprintf(list[i].name, "Product Layer %d", i + 1); 
-    //     list[i].price = (float)(15.5 + i * 2.5);
+    //     list[i].price = (float)(15 + i);
     //     list[i].quantity = 10 + i; 
     // }
 
@@ -315,7 +315,6 @@ static void insertAtPosition(Product listProducts[], int *count) {
     int insertIndex = inputInt(">> Enter position to insert: ", 0, *count); 
     setColor(COLOR_DEFAULT); 
 
-    // Nhập dữ liệu cho sản phẩm mới và hứng dữ liệu trước
     Product newProduct; 
     inputOneProduct(&newProduct, listProducts, *count);
 
@@ -336,8 +335,8 @@ static void insertAtPosition(Product listProducts[], int *count) {
 
     // Gán lại dữ liệu đã hứng 
     listProducts[insertIndex] = newProduct; 
-
     (*count)++;
+
     saveProductsToFile(listProducts, *count); 
     setColor(COLOR_GREEN);
     printf("[Success: Product inserted successfully at position %d]\n", insertIndex);
@@ -372,6 +371,7 @@ static void deleteById(Product listProducts[], int *count) {
     int idToDelete  = inputInt(">> Delete ID: ", 1, 999999999); 
     setColor(COLOR_DEFAULT);
 
+    // Check id có trong danh sách hay không 
     int indexToDelete = -1; 
     int i; 
     for (i = 0; i < *count; i++) {
@@ -452,7 +452,6 @@ void menuDeleteProduct(Product listProducts[], int *count) {
         case 1: deleteById(listProducts, count); break;
         case 2: deleteAll(listProducts, count); break;
         case 0: break;
-        default:
-            break;
+        default: break;
     }
 }

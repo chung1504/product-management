@@ -6,16 +6,6 @@
 #include "../include/table.h"
 #include "../include/color.h"
 
-/**
- * ! Module Search
- * -------------------------
- * Chứa các hàm hỗ trợ tìm kiếm sản phẩm:
- * - Tìm theo ID
- * - Tìm theo tên (không phân biệt hoa thường)
- * - Tìm theo giá
- * - Tìm theo số lượng tồn kho
- */
-
 // * static: chuyển 1 ký tự sang chữ thường, so sanh chuỗi không phân biệt hoa thường 
 static char lower(char c) {
     return tolower(c); 
@@ -226,7 +216,6 @@ void menuSearchProduct(Product listProducts[], int count) {
         case 3: searchByPrice(listProducts, count); break; 
         case 4: searchByQuantity(listProducts, count); break;
         case 0: break;
-        default:
-            break;
+        default: break;
     }
 }

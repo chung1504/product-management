@@ -17,10 +17,10 @@ void exportTxt(Product listProducts[], int count) {
         return;
     }
 
-    fprintf(file, "ID\t| Name\t\t\t\t\t| Price\t| Quantity\n");
+    fprintf(file, "ID | Name | Price | Quantity\n");
     int i; 
     for (i = 0 ; i < count; i++) {
-        fprintf(file, "%d\t| %s\t\t| %.2f\t| %d\n",
+        fprintf(file, "%d | %s | %.2f | %d \n",
                 listProducts[i].id, listProducts[i].name, listProducts[i].price, listProducts[i].quantity);
     }
 
